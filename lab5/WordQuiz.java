@@ -6,7 +6,7 @@ import java.io.*;
 
 public class WordQuiz { 
 	static Dictionary dict; 
-	public WordQuiz(Dictionary dictionary) throws IOException {
+	public WordQuiz(Dictionary dictionary) {
 		dict = dictionary;
 	}
 	

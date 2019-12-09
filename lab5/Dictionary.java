@@ -14,12 +14,10 @@ import java.io.*;
 public class Dictionary {
 	
 	private Map <Word, Set<Word>> map = new HashMap<Word, Set<Word>>(); 
+	
 	//Lägger till termen key till ordlistan med betydelsen value. Om termen
 	//redan  är tillagd med angiven betydelse händer ingenting.
-	int raknare = 0;
   	public void add(Word key, Word value){
-  		
-  		
 	//KOLLA OM key FINNS I MAP
   	if (map.containsKey(key)) {
   		// OM FINNS - HÄMTA VALUE SET SOM HÖR TILL KEY (key) OCH LÄGG TILL value I SET.
@@ -94,10 +92,8 @@ public void load(InputStream is) throws IOException, FileNotFoundException{
 	
 //Lagrar ordlistan på den givna strömmen.
 public void save(OutputStream os)throws IOException {
-		
 	try(FileWriter fw = new FileWriter("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt", true);
-		BufferedWriter bw = new BufferedWriter(fw);
-		PrintWriter out = new PrintWriter(bw)){
+		PrintWriter out = new PrintWriter(fw)){
 			for(Word termer : map.keySet()) {
 				for(Word betydelser : lookup(termer)) {
 					out.write(termer + ":" + betydelser + "\n");
