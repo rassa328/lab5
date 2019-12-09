@@ -24,14 +24,14 @@ public class Dictionary {
   	if (map.containsKey(key)) {
   		// OM FINNS - HÄMTA VALUE SET SOM HÖR TILL KEY (key) OCH LÄGG TILL value I SET.
   		map.get(key).add(value); 
-  		System.out.println("key existerar redan lägger till: " + value.toString() + " till " + key);
+//  		System.out.println("key existerar redan lägger till: " + value.toString() + " till " + key);
   		}
   	else {
   		//Ska nytt hashSet
   		 HashSet<Word> set =new HashSet<>();  
   		 set.add(value);
   		 map.put(key, set);
-   		System.out.println("Skapar nytt set och lägger in " + value.toString() + " till " + key);
+//   		System.out.println("Skapar nytt set och lägger in " + value.toString() + " till " + key);
   	}
 }
   	
@@ -68,13 +68,11 @@ public Set<Word> lookup(Word key){
 // svensk-engelsk ordlista blir efter invertering engelsk-svensk.
 public Dictionary inverse(){
  Dictionary inversedMap = new Dictionary();
- System.out.println("NY ORDLISTA PÅ MOTSATT SPRÅK");
  for (Word termer : map.keySet()) {
 	 for (Word betydelser : lookup(termer)) {
 		 inversedMap.add(betydelser, termer); 
-	 }
- }
- System.out.println("retunerar inversedmap");
+	 	}
+ 	}
  return inversedMap;
 }
 
@@ -92,8 +90,6 @@ public void load(InputStream is) throws IOException, FileNotFoundException{
 		catch(NullPointerException e) {
 			System.out.println("Inga ord i ordlistan");
 		}	
-	System.out.println("LOAD");
-
 }
 	
 //Lagrar ordlistan på den givna strömmen.
@@ -101,8 +97,7 @@ public void save(OutputStream os)throws IOException {
 		
 	try(FileWriter fw = new FileWriter("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt", true);
 		BufferedWriter bw = new BufferedWriter(fw);
-		PrintWriter out = new PrintWriter(bw))
-	{
+		PrintWriter out = new PrintWriter(bw)){
 			for(Word termer : map.keySet()) {
 				for(Word betydelser : lookup(termer)) {
 					out.write(termer + ":" + betydelser + "\n");
@@ -112,8 +107,5 @@ public void save(OutputStream os)throws IOException {
 		catch (IOException e) {
 			System.out.println("IOException");
 		}
-	System.out.println("Save");
-
-	
-}
+	}
 }

@@ -5,16 +5,13 @@ import java.io.*;
 
 
 public class WordQuiz { 
-	Dictionary dict; 
+	static Dictionary dict; 
 	public WordQuiz(Dictionary dictionary) throws IOException {
-		System.out.println("inne i wordquiz");
 		dict = dictionary;
 	}
-
 	
-	public void runQuiz() throws FileNotFoundException, IOException {
-		System.out.println("Början va runquiz");
-		
+	
+	public static void runQuiz() throws FileNotFoundException, IOException {
 		Set<Word> termer = dict.terms();
 		ArrayList<Word> removedWord = new ArrayList<Word>();
 		int antRundor = 0;
@@ -42,79 +39,70 @@ public class WordQuiz {
 		        termer.remove(removedWord.get(i)); 
 			}
 			if(antFel > 0) {
-			System.out.println("Du klarade inte " + antFel + " ord försök igen");
+			System.out.println("Du klarade inte " + antFel + " ord. Försök igen!");
 			}
 		}
 		
 		if (antRundor == 1) {
-			System.out.println("Du klarade det på första försöket");
+			System.out.println("Du klarade det på första försöket!");
 		}
 		else {
-		System.out.println("Du klarade det på " + antRundor + " försök");
-		}
-		System.out.println("slutet va runquiz");
-
+		System.out.println("Du klarade det på " + antRundor + " försök!");
+		}		
+		
 		printMeny();
 }
 	
 	public static void main(String[] args) throws IOException{
+		Dictionary dict = new Dictionary();
+		WordQuiz wq = new WordQuiz(dict);
 		printMeny();
-    	//skapar en tom ordlista
-    	//Dictionary sweng = new Dictionary();
-    	//WordQuiz wq = new WordQuiz(sweng);
-      	//wq.runQuiz();
     }
 	
 	public static void printMeny() throws FileNotFoundException, IOException {
-		System.out.println("---------------------Meny-------------------");
-		System.out.println("1: Ladda filen");
-		System.out.println("2: Inverterar den nuvarande textfilen");
-		System.out.println("3: Sparar de laddade orden till textfil");
-		System.out.println("4: Avslutar programmet");
-		System.out.println("5: Kör prog");
-		Dictionary dict = new Dictionary();
-
-		
+		FileInputStream is = new FileInputStream("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt");
+		dict.load(is);
 
 		//Skriv meny med cases
+		System.out.println("---------------------Meny-------------------");
+		System.out.println("1: Träna glosor!");
+		System.out.println("2: Träna glosor åt andra hållet!");
+		System.out.println("3: Lägg till nya ord");
+		System.out.println("4: Avslutar programmet");
 		Scanner Scan = new Scanner(System.in);
-		String val = Scan.nextLine();
 		
-		while(!val.equals("4")) {
-
-		val = Scan.nextLine();
-		
-		
-		switch(val) {
-		//ladda en ordlista
-		case "1":
-			FileInputStream is = new FileInputStream("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt");
-			dict.load(is);
-			
-			break;
-		//inverterar ordlistan
-		case "2":
-//			dict.load(is);
-			dict = dict.inverse();
-			
-			break;
-		//sparar programmet
-		case "3":
-			FileOutputStream os = new FileOutputStream("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt");
-			dict.save(os);
-			break;
-		//avslutar programmet
-		case "4":
-			
-			break;
-		case "5":
-			WordQuiz wq = new WordQuiz(dict);
-	      	wq.runQuiz();
-			break;
-		default:
-			System.out.println("Felinmatning, försök igen");
-		}
-	}	
+		while(true) {		
+			String val = "";
+			val = Scan.nextLine();
+			switch(val) {
+			//ladda en ordlista
+			case "1":
+				System.out.println("Kör programmet");
+				runQuiz();
+				break;
+			//Kör programmet inverterat
+			case "2":
+				dict = dict.inverse();
+				runQuiz();
+				break;
+			//lägger till nya ord
+			case "3":
+				System.out.println("Lägg till ett ord på formen term:betydelse");
+				String line = Scan.nextLine();
+				String[] Ord = line.split(":");
+				dict.add(Ord[0], Ord[1]);
+				FileOutputStream os = new FileOutputStream("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt");
+				dict.save(os);
+				printMeny();
+			//avslutar programmet
+			case "4":
+				System.out.println("Ses igen!");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Felinmatning, försök igen");
+			}
+		}	
 	
 	}
 }

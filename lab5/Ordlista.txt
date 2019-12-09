@@ -1,0 +1,4 @@
+korridor:suger
+chips:chips
+hej:hello
+kaffe:jatack
