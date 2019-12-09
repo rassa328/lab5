@@ -1,4 +1,0 @@
-adam:keff
-skärm:screen
-dator:computer
-fisk:fish
