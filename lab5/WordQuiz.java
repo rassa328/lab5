@@ -12,20 +12,23 @@ public class WordQuiz {
 	
 	
 	public static void runQuiz() throws FileNotFoundException, IOException {
+		//sparar alla keys/termer till ett set
 		Set<Word> termer = dict.terms();
 		ArrayList<Word> removedWord = new ArrayList<Word>();
 		int antRundor = 0;
 		while(!termer.isEmpty()) {
 			int antFel = 0;
 			antRundor++;
+			//anvancerad loop som kör igenom alla termer
 			for(Word term : termer) {
 				System.out.println("Översätt: " + term);
 				Scanner Scan = new Scanner(System.in);
 				String in = Scan.nextLine();
-
 				Word inWord = new Word(in);
+				//sparar betydelserna till termen till set 
 				Set<Word> betydelser = dict.lookup(term);
 				
+				//om man gissar rätt så läggs ordet in i våran arraylist removeword
 				if(betydelser.contains(inWord)) {
 					System.out.println("Korrekt");
 					removedWord.add(term);
@@ -35,6 +38,7 @@ public class WordQuiz {
 					antFel++;	
 					}
 				}
+			//tar bort rätt ord ifrån set termer
 			for(int i=0; i< removedWord.size(); i++) {
 		        termer.remove(removedWord.get(i)); 
 			}
@@ -88,11 +92,16 @@ public class WordQuiz {
 			//lägger till nya ord
 			case "3":
 				System.out.println("Lägg till ett ord på formen term:betydelse");
+				//splittar en rad med : 
 				String line = Scan.nextLine();
 				String[] Ord = line.split(":");
-				dict.add(Ord[0], Ord[1]);
+				try { dict.add(Ord[0], Ord[1]);
 				FileOutputStream os = new FileOutputStream("/home/rassa328/eclipse-workspace/TDDC77Labs/src/lab5/Ordlista.txt");
 				dict.save(os);
+				}
+				catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("Felinmatning läs instruktionerna");
+				}
 				printMeny();
 			//avslutar programmet
 			case "4":

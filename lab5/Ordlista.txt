@@ -1,4 +1,5 @@
+
 korridor:suger
+hej då:bye
 chips:chips
 hej:hello
-kaffe:jatack
